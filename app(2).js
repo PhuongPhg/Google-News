@@ -1,14 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useState, useEffect} from 'react';
 import {  LogBox, Text } from 'react-native';
-import News from './getNews';
+// import News from './getNews';
 import Published from './getPublished';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo } from "@expo/vector-icons";
-import singlePub from './totalPublished';
-import Search from './search';
-import { SearchBar } from 'react-native-elements';
+
 const Tab = createBottomTabNavigator();
 
 const routeIcon = {
@@ -37,8 +35,11 @@ export default function App(){
     >
       <Tab.Screen name="News" component={News}/>
       <Tab.Screen name="Published" component={Published}/>
-      <Tab.Screen name="Search" component={Search}/>
+      <Tab.Screen name="Search" component={News}/>
     </Tab.Navigator>
   </NavigationContainer>
   );
+}
+function News(){
+  return <Text> news</Text>
 }
