@@ -6,8 +6,7 @@ import Constants from "expo-constants";
 import moment from 'moment';
 import {Icon} from 'react-native-elements';
 import { Entypo } from '@expo/vector-icons';
-import { SearchBar } from 'react-native-elements';
-// // b79f085de40249e28b6c0f3f0d1c7ebd
+// b79f085de40249e28b6c0f3f0d1c7ebd
 // LogBox.ignoreLogs(["'Card.title' prop has been deprecated and will be removed in the next version."]);
 // LogBox.ignoreLogs(["'Card.image' prop has been deprecated and will be removed in the next version."]);
 
@@ -24,21 +23,21 @@ const filterForUniqueArticles = (arr) =>{
   return cleaned;
 }
 
-export default function Search() {
+export default function DetailSearch({route}) {
   const [loading, setLoading] = useState(true);
   const [articles, setArticles] = useState([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [hasErrored, setHasApiError] = useState(false);
   const [lastPageReached, setLastPageReached] = useState(false);
-  const [ search, setSearch] = useState('');
-
+  
   const getNews = async () => {
     if (lastPageReached) return;
     setLoading(true);
     try {
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=${search}&apiKey=b79f085de40249e28b6c0f3f0d1c7ebd&page=${pageNumber}`
+        `https://newsapi.org/v2/everything?qInTitle=${route.params}&apiKey=b79f085de40249e28b6c0f3f0d1c7ebd&page=${pageNumber}`
       )
+      console.log('route params: ',route.params);
       const jsonData = await response.json();
       const hasMoreAricles = jsonData.articles.length > 0;
       if(hasMoreAricles){
@@ -59,15 +58,17 @@ export default function Search() {
     
   };
   // only check the articles piece of state, not loading more 
-  
+  useEffect(() =>{
+    getNews();
+  }, [articles]);
 
-//   if(loading) {
-//     return (
-//       <View style={styles.container}>
-//         <ActivityIndicator size="large" loading={loading} />
-//       </View>
-//     );
-//   }
+  if(loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" loading={loading} />
+      </View>
+    );
+  }
   if(hasErrored) {
     return (
       <View style={styles.container}>
@@ -109,19 +110,11 @@ export default function Search() {
     })
   }
   
-  const updateSearch = (search) => {
-      setSearch({search});
-      useEffect(() =>{
-        getNews(search);
-      }, [articles]);
-  }
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-      <SearchBar
-        placeholder="Search here..."
-        onChangeText={text => updateSearch(text)}
-        value={search} />
+        <Text style={styles.label}>Articles Count:</Text>
+        <Text style={styles.info}>{articles.length}</Text>
       </View>
       <FlatList data={articles}
        renderItem={renderArticleItem} 
