@@ -17,6 +17,7 @@ A news 📰 app 📱 using React Native & Expo. Our app will help users find inf
 [x] If the api has no more articles to fetch, the app should not make unnecessary api requests.<br/>
 [x] If the user has fetched all the articles, the user should be prompted accordingly.<br/>
 
+
 ## **Rockets** 🚀
 [x] User can see a list of individual publishers.<br/>
 [x] User can see how many articles each publisher has made.<br/>
